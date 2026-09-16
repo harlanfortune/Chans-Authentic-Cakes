@@ -1,0 +1,6 @@
+{
+  "name": "Chans Authentic Cakes",
+  "description": "Artisanal bakery photo gallery showcase synced live with Google Photos album, featuring custom cake collections, high-resolution photography, and direct WhatsApp order inquiries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
