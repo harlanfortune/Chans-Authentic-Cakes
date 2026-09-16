@@ -6,7 +6,9 @@ import { WHATSAPP_LINK, getWhatsAppUrl } from '../data/cakes';
 
 interface PhotoLightboxProps {
   photo: AlbumPhoto | null;
-  allPhotos: AlbumPhoto[];
+  allPhotos?: AlbumPhoto[];
+  currentIndex?: number;
+  total?: number;
   onClose: () => void;
   onSelectNext: () => void;
   onSelectPrev: () => void;
@@ -16,6 +18,8 @@ interface PhotoLightboxProps {
 export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
   photo,
   allPhotos,
+  currentIndex: propCurrentIndex,
+  total: propTotal,
   onClose,
   onSelectNext,
   onSelectPrev,
@@ -37,8 +41,17 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
 
   if (!photo) return null;
 
-  const currentIndex = allPhotos.findIndex((p) => p.id === photo.id);
-  const total = allPhotos.length;
+  const displayIndex = propCurrentIndex !== undefined
+    ? propCurrentIndex
+    : allPhotos
+    ? allPhotos.findIndex((p) => p.id === photo.id)
+    : 0;
+
+  const displayTotal = propTotal !== undefined
+    ? propTotal
+    : allPhotos
+    ? allPhotos.length
+    : 1;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(photo.fullUrl);
@@ -47,7 +60,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
   };
 
   const whatsappInquiryUrl = getWhatsAppUrl(
-    `Hello Chan! I am inquiring about ordering a cake similar to this design from your gallery:\n🎂 Design: ${photo.title}\n📷 Photo: ${photo.fullUrl}\nCould you share pricing and availability?`
+    `Hello Chan! I am inquiring about ordering a custom cake inspired by this photo from your gallery:\n📷 Photo #${displayIndex + 1}: ${photo.fullUrl}\nCould you share pricing and availability?`
   );
 
   return (
@@ -64,7 +77,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
         <button
           onClick={onClose}
           id="lightbox-close-btn"
-          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-sm transition-all focus:outline-none"
+          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-sm transition-all focus:outline-none cursor-pointer"
           title="Close Lightbox (Esc)"
         >
           <X className="w-5 h-5" />
@@ -74,7 +87,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
         <div className="relative flex-1 bg-black flex items-center justify-center overflow-hidden min-h-[350px] sm:min-h-[480px] lg:min-h-[600px]">
           <img
             src={photo.fullUrl}
-            alt={photo.title}
+            alt="Chan's Authentic Cakes Gallery Photo"
             className="max-h-[85vh] w-auto max-w-full object-contain select-none"
           />
 
@@ -82,7 +95,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
           <button
             onClick={onSelectPrev}
             id="lightbox-prev-btn"
-            className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-sm transition-all focus:outline-none group"
+            className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-sm transition-all focus:outline-none group cursor-pointer"
             title="Previous Photo (Left Arrow)"
           >
             <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
@@ -92,7 +105,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
           <button
             onClick={onSelectNext}
             id="lightbox-next-btn"
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-sm transition-all focus:outline-none group"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-sm transition-all focus:outline-none group cursor-pointer"
             title="Next Photo (Right Arrow)"
           >
             <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
@@ -100,7 +113,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
 
           {/* Index Counter Pill */}
           <div className="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-black/60 text-xs font-mono text-[#E4D1C3] backdrop-blur-sm">
-            {currentIndex + 1} / {total}
+            {displayIndex + 1} / {displayTotal}
           </div>
         </div>
 
@@ -113,28 +126,20 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
             </div>
 
             <h3 className="font-serif-brand text-2xl font-bold text-[#F8EFE7] leading-snug">
-              {photo.title}
+              Cake Photo #{displayIndex + 1}
             </h3>
 
             <div className="mt-3 flex items-center gap-3 text-xs text-[#BAA393]">
-              <span className="capitalize px-2.5 py-1 rounded bg-[#2C1F18] border border-[#443026]">
-                {photo.category} Collection
-              </span>
-              <span>•</span>
-              <span>{photo.width} × {photo.height}px</span>
+              <span>Resolution: {photo.width} × {photo.height}px</span>
             </div>
-
-            <p className="mt-4 text-sm text-[#D1BFAF] leading-relaxed">
-              Every creation by Chan is custom-baked with authentic ingredients, bespoke tier structures, and personalized flavor profiles.
-            </p>
 
             <div className="mt-6 pt-6 border-t border-[#3E291E] space-y-3">
               <div className="flex items-center justify-between text-xs text-[#A89283]">
-                <span>Source Album:</span>
-                <span className="font-medium text-[#E4D1C3]">Chan's Live Showcase</span>
+                <span>Source:</span>
+                <span className="font-medium text-[#E4D1C3]">Chan's Google Photos Album</span>
               </div>
               <div className="flex items-center justify-between text-xs text-[#A89283]">
-                <span>Availability:</span>
+                <span>Status:</span>
                 <span className="font-medium text-[#78C288]">Made to Order</span>
               </div>
             </div>
@@ -148,7 +153,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
               className="w-full py-3.5 px-4 rounded-xl bg-[#9C7053] hover:bg-[#855D42] text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
-              <span>Inquire / Order This Design</span>
+              <span>Inquire / Order This Cake</span>
             </button>
 
             <a
@@ -175,7 +180,7 @@ export const PhotoLightbox: React.FC<PhotoLightboxProps> = ({
 
               <button
                 onClick={handleCopyLink}
-                className="p-2 rounded-lg bg-[#2C1F18] hover:bg-[#3B2B22] text-[#E4D1C3] text-xs border border-[#443026] transition-colors"
+                className="p-2 rounded-lg bg-[#2C1F18] hover:bg-[#3B2B22] text-[#E4D1C3] text-xs border border-[#443026] transition-colors cursor-pointer"
                 title="Copy high-res image link"
               >
                 {copied ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />}

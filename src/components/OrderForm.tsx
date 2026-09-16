@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AlbumPhoto } from '../types';
-import { WHATSAPP_LINK, DISPLAY_PHONE, STUDIO_LOCATION, BAKERY_HOURS, getWhatsAppUrl } from '../data/cakes';
+import { WHATSAPP_LINK, DISPLAY_PHONE, STUDIO_LOCATION, BAKERY_HOURS, getWhatsAppUrl, FACEBOOK_URL } from '../data/cakes';
 import {
   MessageCircle,
   Calendar,
@@ -12,23 +12,15 @@ import {
   Clock,
   MapPin,
   HelpCircle,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Facebook,
+  ExternalLink
 } from 'lucide-react';
 
 interface OrderFormProps {
   selectedPhoto: AlbumPhoto | null;
   onClearSelectedPhoto: () => void;
 }
-
-const POPULAR_FLAVORS = [
-  'Madagascan Bourbon Vanilla',
-  'Belgian Double Chocolate Fudge',
-  'Classic Red Velvet with Cream Cheese',
-  'Zesty Lemon Curd & Elderflower',
-  'Salted Caramel & Hazelnut Praline',
-  'Spiced Carrot & Roasted Pecan',
-  'Custom Flavor (Specified in Notes)'
-];
 
 export const OrderForm: React.FC<OrderFormProps> = ({
   selectedPhoto,
@@ -39,7 +31,6 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   const [email, setEmail] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [servings, setServings] = useState<number>(20);
-  const [flavor, setFlavor] = useState(POPULAR_FLAVORS[0]);
   const [deliveryOption, setDeliveryOption] = useState<'pickup' | 'delivery'>('pickup');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -52,12 +43,10 @@ export const OrderForm: React.FC<OrderFormProps> = ({
     msg += `📱 *Phone:* ${phone || 'Not provided'}\n`;
     if (eventDate) msg += `📅 *Event Date:* ${eventDate}\n`;
     msg += `👥 *Estimated Servings:* ${servings} guests\n`;
-    msg += `🍰 *Flavor Preference:* ${flavor}\n`;
     msg += `🚚 *Fulfillment:* ${deliveryOption === 'pickup' ? 'Studio Pickup' : 'Delivery Required'}\n`;
 
     if (selectedPhoto) {
-      msg += `\n🎂 *Selected Design Reference:*\n`;
-      msg += `"${selectedPhoto.title}"\n`;
+      msg += `\n🎂 *Selected Cake Reference:*\n`;
       msg += `Photo URL: ${selectedPhoto.fullUrl}\n`;
     }
 
@@ -116,7 +105,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                 <div className="w-16 h-16 rounded-lg overflow-hidden bg-black shrink-0 border border-[#DAC8B7]">
                   <img
                     src={selectedPhoto.thumbnailUrl}
-                    alt={selectedPhoto.title}
+                    alt="Selected Reference Cake"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -124,11 +113,11 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   <span className="text-[11px] uppercase tracking-wider text-[#9C7053] font-bold block">
                     Selected Reference Cake
                   </span>
-                  <h4 className="font-serif-brand text-base sm:text-lg font-bold text-[#2C1810] line-clamp-1">
-                    {selectedPhoto.title}
+                  <h4 className="font-serif-brand text-base sm:text-lg font-bold text-[#2C1810]">
+                    Cake from Album Showcase
                   </h4>
-                  <span className="text-xs text-[#7D6657] capitalize">
-                    {selectedPhoto.category} collection • From live album
+                  <span className="text-xs text-[#7D6657]">
+                    Photo attached from live Google Photos catalogue
                   </span>
                 </div>
               </div>
@@ -250,25 +239,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                 </div>
               </div>
 
-              {/* Row 3: Flavor Preference */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#4A3427] mb-2">
-                  Preferred Cake Flavor / Sponge
-                </label>
-                <select
-                  value={flavor}
-                  onChange={(e) => setFlavor(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E5D7C9] rounded-xl text-sm text-[#2C1810] focus:outline-none focus:ring-2 focus:ring-[#9C7053]"
-                >
-                  {POPULAR_FLAVORS.map((f) => (
-                    <option key={f} value={f}>
-                      {f}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Row 4: Fulfillment Method */}
+              {/* Row 3: Fulfillment Method */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#4A3427] mb-2">
                   Order Fulfillment
@@ -337,6 +308,28 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   <Send className="w-4 h-4" />
                   <span>Submit Inquiry</span>
                 </button>
+              </div>
+
+              {/* Follow on Facebook Callout */}
+              <div className="pt-2 flex items-center justify-between flex-wrap gap-3 p-3.5 bg-[#FAF7F2] border border-[#E5D7C9] rounded-xl text-xs text-[#523B2E]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-[#1877F2] text-white flex items-center justify-center shrink-0">
+                    <Facebook className="w-3.5 h-3.5 fill-current" />
+                  </div>
+                  <span>
+                    Follow <strong>Chan's Authentic Cakes</strong> on Facebook for daily bakes, customer reviews & updates!
+                  </span>
+                </div>
+                <a
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="order-facebook-link"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1877F2] hover:bg-[#166fe5] text-white font-semibold text-[11px] transition-colors"
+                >
+                  <span>Visit Facebook</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </div>
             </form>
           )}

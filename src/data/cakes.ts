@@ -255,6 +255,7 @@ export const DISPLAY_PHONE = '+27 81 207 8640';
 export const BAKERY_EMAIL = 'chansauthenticcakes@gmail.com';
 export const STUDIO_LOCATION = '58 Albert Street, George Central, George. 6529';
 export const BAKERY_HOURS = 'Mon - Sat: 8:30 AM – 5:30 PM | Sun: By Appointment';
+export const FACEBOOK_URL = 'https://www.facebook.com/ChansAuthenticCakes';
 
 export function getWhatsAppUrl(customText?: string): string {
   if (customText && customText.trim()) {

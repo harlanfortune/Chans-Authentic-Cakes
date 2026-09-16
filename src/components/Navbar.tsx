@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Cake, MessageCircle, ExternalLink, Menu, X, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { Cake, MessageCircle, ExternalLink, Menu, X, Sparkles, Image as ImageIcon, Facebook } from 'lucide-react';
 import { GOOGLE_PHOTOS_ALBUM_URL } from '../data/albumPhotos';
-import { WHATSAPP_LINK, getWhatsAppUrl } from '../data/cakes';
+import { WHATSAPP_LINK, getWhatsAppUrl, FACEBOOK_URL } from '../data/cakes';
 
 interface NavbarProps {
   onNavigate: (sectionId: string) => void;
@@ -23,38 +23,46 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, photoCount = 37 }) =
           {/* Brand Logo & Name */}
           <button
             onClick={() => handleNavClick('hero')}
-            className="flex items-center gap-3 group text-left cursor-pointer focus:outline-none"
+            className="flex items-center gap-3.5 group text-left cursor-pointer focus:outline-none py-1"
             id="nav-brand-btn"
           >
-            <div className="w-10 h-10 rounded-full bg-[#2C1810] flex items-center justify-center text-[#F3E5D8] shadow-sm group-hover:scale-105 transition-transform duration-200">
-              <Cake className="w-5 h-5 stroke-[1.75]" />
+            {/* Artisanal Bakery Crest */}
+            <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#9C7053] via-[#D4A373] to-[#F3DEC9] shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300 shrink-0">
+              <div className="w-full h-full rounded-full bg-[#2C1810] flex items-center justify-center text-[#F5E2D0] border border-[#523324]/80">
+                <Cake className="w-5 h-5 sm:w-6 sm:h-6 text-[#EAC49D] group-hover:rotate-6 transition-transform duration-300 stroke-[1.75]" />
+              </div>
             </div>
+
             <div>
-              <span className="font-serif-brand text-xl sm:text-2xl font-bold tracking-tight text-[#2C1810] block leading-none">
-                Chans Authentic Cakes
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest text-[#9C7053] font-medium mt-1 block">
-                Artisanal Bakery & Photo Gallery
-              </span>
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="font-serif-brand text-2xl sm:text-3xl font-bold tracking-tight text-[#2C1810] leading-none group-hover:text-[#9C7053] transition-colors">
+                  Chan's
+                </span>
+                <span className="font-display-brand text-sm sm:text-base lg:text-lg font-semibold tracking-[0.14em] uppercase text-[#7A4F32] leading-none">
+                  Authentic Cakes
+                </span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.24em] text-[#9C7053] font-semibold">
+                  Artisanal Bakery
+                </span>
+                <span className="text-[8px] text-[#C9A88D]">✦</span>
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.24em] text-[#9C7053] font-semibold">
+                  George
+                </span>
+              </div>
             </div>
           </button>
 
           {/* Desktop Nav Items */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#4A3225]">
             <button
-              onClick={() => handleNavClick('collections')}
-              className="hover:text-[#9C7053] transition-colors py-1 cursor-pointer"
-              id="nav-link-collections"
-            >
-              Collections
-            </button>
-            <button
               onClick={() => handleNavClick('gallery')}
-              className="hover:text-[#9C7053] transition-colors py-1 flex items-center gap-1.5 cursor-pointer"
+              className="hover:text-[#9C7053] transition-colors py-1 flex items-center gap-1.5 cursor-pointer font-semibold"
               id="nav-link-gallery"
             >
-              <span>Live Album</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-[#EAD9C9] text-[#6A4126] text-[10px] font-bold">
+              <span>Photo Gallery</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#EAD9C9] text-[#6A4126] text-[10px] font-bold">
                 {photoCount}
               </span>
             </button>
@@ -81,6 +89,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, photoCount = 37 }) =
               <ImageIcon className="w-4 h-4 text-[#9C7053]" />
               <span>Google Photos Album</span>
               <ExternalLink className="w-3 h-3 text-[#9C8677]" />
+            </a>
+
+            {/* Facebook Page Button */}
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="nav-facebook-btn"
+              className="p-2 rounded-xl bg-white hover:bg-[#1877F2] hover:text-white border border-[#E2D4C4] text-[#1877F2] shadow-xs transition-all flex items-center justify-center cursor-pointer"
+              title="Visit Chan's Authentic Cakes on Facebook"
+              aria-label="Visit Chan's Authentic Cakes on Facebook"
+            >
+              <Facebook className="w-4 h-4 fill-current" />
             </a>
 
             {/* Direct WhatsApp Contact Button */}
@@ -121,16 +142,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, photoCount = 37 }) =
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-[#EADFCF] space-y-3">
             <button
-              onClick={() => handleNavClick('collections')}
-              className="block w-full text-left py-2 text-sm font-medium text-[#4A3225]"
-            >
-              Collections
-            </button>
-            <button
               onClick={() => handleNavClick('gallery')}
-              className="block w-full text-left py-2 text-sm font-medium text-[#4A3225]"
+              className="block w-full text-left py-2 text-sm font-semibold text-[#4A3225]"
             >
-              Live Album Gallery ({photoCount} photos)
+              Photo Gallery ({photoCount} creations)
             </button>
             <button
               onClick={() => handleNavClick('order')}
@@ -148,6 +163,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, photoCount = 37 }) =
                 <ImageIcon className="w-4 h-4 text-[#9C7053]" />
                 <span>Open Google Photos Album</span>
                 <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-2.5 px-4 rounded-xl bg-[#1877F2] text-white text-xs font-semibold text-center flex items-center justify-center gap-2 shadow-xs"
+              >
+                <Facebook className="w-4 h-4 fill-current" />
+                <span>Visit Facebook Page</span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
               </a>
               <a
                 href={getWhatsAppUrl("Hello Chan! I'm reaching out from your website.")}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Cake, MessageCircle, Phone, Mail, MapPin, Instagram, ExternalLink, Image as ImageIcon } from 'lucide-react';
-import { WHATSAPP_LINK, DISPLAY_PHONE, BAKERY_EMAIL, STUDIO_LOCATION, BAKERY_HOURS } from '../data/cakes';
+import { Cake, MessageCircle, Phone, Mail, MapPin, ExternalLink, Image as ImageIcon, Facebook } from 'lucide-react';
+import { WHATSAPP_LINK, DISPLAY_PHONE, BAKERY_EMAIL, STUDIO_LOCATION, BAKERY_HOURS, FACEBOOK_URL } from '../data/cakes';
 import { GOOGLE_PHOTOS_ALBUM_URL } from '../data/albumPhotos';
 
 interface FooterProps {
@@ -15,17 +15,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           
           {/* Brand Col */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#FAF7F2] flex items-center justify-center text-[#21120B]">
-                <Cake className="w-5 h-5 stroke-[2]" />
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-11 h-11 rounded-full p-[2px] bg-gradient-to-tr from-[#9C7053] via-[#D4A373] to-[#F3DEC9] shadow-md shrink-0">
+                <div className="w-full h-full rounded-full bg-[#1F140D] flex items-center justify-center text-[#F5E2D0] border border-[#523324]">
+                  <Cake className="w-5 h-5 text-[#EAC49D] stroke-[1.75]" />
+                </div>
               </div>
               <div>
-                <span className="font-serif-brand text-2xl font-bold tracking-tight text-white block leading-none">
-                  Chans Authentic Cakes
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-[#D4A373] font-medium block mt-1">
-                  Artisanal Bakery & Photo Gallery
-                </span>
+                <div className="flex items-baseline gap-1.5 flex-wrap">
+                  <span className="font-serif-brand text-2xl font-bold tracking-tight text-white leading-none">
+                    Chan's
+                  </span>
+                  <span className="font-display-brand text-sm sm:text-base font-semibold tracking-[0.14em] uppercase text-[#E8C49B] leading-none">
+                    Authentic Cakes
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.24em] text-[#D4A373] font-semibold">
+                    Artisanal Bakery
+                  </span>
+                  <span className="text-[8px] text-[#A69385]">✦</span>
+                  <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.24em] text-[#D4A373] font-semibold">
+                    George
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -34,6 +47,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </p>
 
             <div className="pt-2 flex items-center gap-3">
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#1877F2] text-white flex items-center justify-center transition-colors"
+                aria-label="Facebook Page (Chan's Authentic Cakes)"
+                title="Visit our Facebook Page"
+              >
+                <Facebook className="w-4 h-4 fill-current" />
+              </a>
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"
@@ -65,10 +88,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2 text-xs text-[#E5D7CC]">
               <li>
                 <button 
-                  onClick={() => onNavigate('collections')} 
+                  onClick={() => onNavigate('hero')} 
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Collections
+                  Home / Welcome
                 </button>
               </li>
               <li>
@@ -123,6 +146,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
                 <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366] transition-colors flex items-center gap-1">
                   <span>Chat on WhatsApp ({DISPLAY_PHONE})</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Facebook className="w-4 h-4 text-[#1877F2] shrink-0 fill-current" />
+                <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[#1877F2] transition-colors flex items-center gap-1">
+                  <span>facebook.com/ChansAuthenticCakes</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
